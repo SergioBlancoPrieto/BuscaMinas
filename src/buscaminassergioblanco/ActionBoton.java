@@ -42,6 +42,9 @@ public class ActionBoton extends MouseAdapter implements ActionListener {
         }
     }
     
+    /**
+     * Acción que ocurrirá cuando pulsamos click derecho en uno de los botones.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {

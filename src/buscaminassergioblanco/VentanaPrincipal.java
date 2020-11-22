@@ -39,6 +39,8 @@ public class VentanaPrincipal {
 
     JButton botonEmpezar;
     JTextField pantallaPuntuacion;
+    JTextField tiempo;
+    Reloj reloj;
 
     //LA VENTANA GUARDA UN CONTROL DE JUEGO:
     ControlJuego juego;
@@ -70,6 +72,9 @@ public class VentanaPrincipal {
         pantallaPuntuacion = new JTextField("0");
         pantallaPuntuacion.setEditable(false);
         pantallaPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
+        tiempo = new JTextField("0:0:0");
+        tiempo.setEditable(false);
+        reloj = new Reloj(this);
 
         //Bordes y colores:
         panelImagen.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
@@ -111,6 +116,10 @@ public class VentanaPrincipal {
         settings.gridwidth = 3;
         settings.fill = GridBagConstraints.BOTH;
         ventana.add(panelJuego, settings);
+        
+        //Cronómetro
+        panelImagen.add(tiempo);
+        reloj.start();
 
         //Paneles
         panelesJuego = new JPanel[10][10];
@@ -155,6 +164,9 @@ public class VentanaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Se para el tiempo y se resetea a 0:
+                reloj.setTerminar(true);
+                reloj.reiniciar();
                 GridBagConstraints settings = new GridBagConstraints();
                 getJuego().inicializarPartida();
                 //Se elimina el panel actual ya que algunos botones fueron sustituidos por JLabels y se crea todo de nuevo:
@@ -193,6 +205,8 @@ public class VentanaPrincipal {
                 inicializarListeners();
                 pantallaPuntuacion.setText("0");
                 juego.setPuntuación(0);
+                //Se reactiva el tiempo:
+                reloj.setTerminar(false);
                 refrescarPantalla();
             }
         });
@@ -277,6 +291,8 @@ public class VentanaPrincipal {
      * juego.
      */
     public void mostrarFinJuego(boolean porExplosion) {
+        //Primero se para el tiempo:
+        reloj.setTerminar(true);
         //En caso de que demos click en una mina:
         if (porExplosion) {
             //Se abre una ventana con el texto de fin de juego:
