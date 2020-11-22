@@ -1,7 +1,10 @@
 package buscaminassergioblanco;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Clase que implementa el listener de los botones del Buscaminas. De alguna
@@ -11,7 +14,7 @@ import java.awt.event.ActionListener;
  *
  * @author jesusredondogarcia & SergioBlancoPrieto
  */
-public class ActionBoton implements ActionListener {
+public class ActionBoton extends MouseAdapter implements ActionListener {
     private final static int MINA = -1;
     VentanaPrincipal ventana;
     int x, y;
@@ -35,6 +38,19 @@ public class ActionBoton implements ActionListener {
                 ventana.mostrarFinJuego(false);
             } else {
                 ventana.mostrarNumMinasAlrededor(x, y);
+            }
+        }
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            if (ventana.botonesJuego[x][y].getText().equals("-")) {
+                ventana.botonesJuego[x][y].setBackground(Color.red);
+                ventana.botonesJuego[x][y].setText("MINA");
+            } else {
+                ventana.botonesJuego[x][y].setBackground(null);
+                ventana.botonesJuego[x][y].setText("-");
             }
         }
     }
